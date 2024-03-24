@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         // реализуйте алгоритм здесь
         String hostName = "localhost";
         String dbName = "users";
@@ -18,10 +18,10 @@ public class Main {
 
         UserServiceImpl usi = new UserServiceImpl();
         usi.createUsersTable();
-        usi.saveUser("Ivan", "Ivanov", (byte)66);
-        usi.saveUser("Petr", "Petrov", (byte)55);
-        usi.saveUser("Sidor", "Sidorov", (byte)44);
-        usi.saveUser("Ostin", "Powers", (byte)33);
+        usi.saveUser("Ivan", "Ivanov", (byte) 66);
+        usi.saveUser("Petr", "Petrov", (byte) 55);
+        usi.saveUser("Sidor", "Sidorov", (byte) 44);
+        usi.saveUser("Ostin", "Powers", (byte) 33);
         List<User> list = usi.getAllUsers();
         System.out.println(list);
         usi.cleanUsersTable();

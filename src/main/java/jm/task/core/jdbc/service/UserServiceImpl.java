@@ -11,46 +11,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    public void createUsersTable() throws SQLException {
-        try (Connection connection = Util.getBDConnection(); Statement statement = connection.createStatement()) {
+    public void createUsersTable() {
+        try (Statement statement = Util.getStatement()) {
             statement.executeUpdate("create table if not exists Users " +
                     "(id bigint primary key auto_increment, \n" +
                     "firstName varchar(40) not null,\n" +
                     "lastName varchar(40) not null,\n" +
                     "age tinyint not null check (age > 0));");
         } catch (SQLException sqex) {
-//            throw sqex;
+            System.out.println("Ошибка при создании таблицы в базе");
+            sqex.printStackTrace();
         }
     }
 
-    public void dropUsersTable() throws SQLException {
-        try (Connection connection = Util.getBDConnection(); Statement statement = connection.createStatement()) {
+    public void dropUsersTable() {
+        try (Statement statement = Util.getStatement()) {
             statement.executeUpdate("drop table users;");
         } catch (SQLException sqex) {
-//            throw sqex;
+            System.out.println("Ошибка при удалении таблицы из базы");
+            sqex.printStackTrace();
         }
     }
 
-    public void saveUser(String name, String lastName, byte age) throws SQLException {
-        try (Connection connection = Util.getBDConnection(); Statement statement = connection.createStatement()) {
-            statement.executeUpdate("INSERT INTO users(firstName, lastName, age) value ('"+name+"', '"+lastName+"', "+age+");");
+    public void saveUser(String name, String lastName, byte age) {
+        try (Statement statement = Util.getStatement()) {
+            statement.executeUpdate("INSERT INTO users(firstName, lastName, age)" +
+                    " value ('" + name + "', '" + lastName + "', " + age + ");");
         } catch (SQLException sqex) {
-//            throw sqex;
+            System.out.println("Ошибка при добавлении пользователя в таблицу");
+            sqex.printStackTrace();
         }
-        System.out.println("User с именем — "+name+" добавлен в базу данных");
+        System.out.println("User с именем — " + name + " добавлен в базу данных");
     }
 
-    public void removeUserById(long id) throws SQLException {
-        try (Connection connection = Util.getBDConnection(); Statement statement = connection.createStatement()) {
-            statement.executeUpdate("delete from users where id="+id+";");
+    public void removeUserById(long id) {
+        try (Statement statement = Util.getStatement()) {
+            statement.executeUpdate("delete from users where id=" + id + ";");
         } catch (SQLException sqex) {
-//            throw sqex;
+            System.out.println("Ошибка при удалении пользователя из таблицы");
+            sqex.printStackTrace();
         }
     }
 
-    public List<User> getAllUsers() throws SQLException {
+    public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
-        try (Connection connection = Util.getBDConnection(); Statement statement = connection.createStatement();
+        try (Statement statement = Util.getStatement();
              ResultSet resultSet = statement.executeQuery("select * from users;")) {
             while (resultSet.next()) {
                 User user = new User(resultSet.getString("firstName"),
@@ -59,17 +64,18 @@ public class UserServiceImpl implements UserService {
                 list.add(user);
             }
         } catch (SQLException sqex) {
-//            throw sqex;
+            System.out.println("Ошибка при получении списка пользователей");
+            sqex.printStackTrace();
         }
-
         return list;
     }
 
-    public void cleanUsersTable() throws SQLException {
-        try (Connection connection = Util.getBDConnection(); Statement statement = connection.createStatement()) {
+    public void cleanUsersTable() {
+        try (Statement statement = Util.getStatement()) {
             statement.executeUpdate("truncate table users;");
         } catch (SQLException sqex) {
-//            throw sqex;
+            System.out.println("Ошибка при очистке таблицы");
+            sqex.printStackTrace();
         }
     }
 }
