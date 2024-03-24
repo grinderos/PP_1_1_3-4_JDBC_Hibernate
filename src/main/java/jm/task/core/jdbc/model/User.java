@@ -22,7 +22,7 @@ public class User {
 
     }
 
-    public User(String name, String lastName, Byte age) {
+    public User(String name, String lastName, byte age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
@@ -58,5 +58,17 @@ public class User {
 
     public void setAge(Byte age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder("User (")
+                .append("id = ").append(id)
+                .append(" , name = ")
+                .append(name)
+                .append(" , lastName = ")
+                .append(lastName)
+                .append(" , age = ")
+                .append(age).append(")").toString();
     }
 }
