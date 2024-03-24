@@ -13,7 +13,7 @@ public class Main {
         String hostName = "localhost";
         String dbName = "users";
         String userName = "root";
-        String password = "Gr1423571";
+        String password = "password";
         Util.setConnectionParameters(hostName, dbName, userName, password);
 
         UserServiceImpl usi = new UserServiceImpl();
