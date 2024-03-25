@@ -23,7 +23,7 @@ public class Util {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://"+ hostName + ":3306/"
+                    "jdbc:mysql://" + hostName + ":3306/"
                             + dbName, userName, password
             );
         } catch (SQLException e) {
