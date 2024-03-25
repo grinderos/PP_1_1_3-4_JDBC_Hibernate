@@ -39,15 +39,15 @@ public class Util {
         return connection;
     }
 
-    public static SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactory() throws Exception {
         if (sessionFactory == null) {
             try {
                 Configuration config = new Configuration()
                         .addAnnotatedClass(User.class)
-                        .setProperty(Environment.URL, "jdbc:mysql://localhost:3306/users")
+                        .setProperty(Environment.URL, "jdbc:mysql://"+hostName+":3306/"+dbName)
                         .setProperty(Environment.DRIVER, "com.mysql.cj.jdbc.Driver")
-                        .setProperty(Environment.USER, "root")
-                        .setProperty(Environment.PASS, "password")
+                        .setProperty(Environment.USER, userName)
+                        .setProperty(Environment.PASS, password)
                         .setProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread")
                         .setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect")
                         .setProperty(Environment.SHOW_SQL, "true");
@@ -56,7 +56,7 @@ public class Util {
                 return sessionFactory = config.buildSessionFactory();
             } catch (Exception e) {
                 System.out.println("Ошибка при создании SessionFactory");
-                e.printStackTrace();
+                throw new Exception("Ошибка при получении Connection", e);
             }
         }
         return sessionFactory;
