@@ -1,9 +1,15 @@
 package jm.task.core.jdbc.util;
 
+import jm.task.core.jdbc.model.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
+import org.hibernate.service.ServiceRegistry;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Util {
     // реализуйте настройку соединения с БД
@@ -11,6 +17,7 @@ public class Util {
     private static String dbName = "users";
     private static String userName = "root";
     private static String password = "password";
+    private static SessionFactory sessionFactory;
 
     public static void setConnectionParameters(String host_name, String db_name, String user_login, String user_password) {
         hostName = host_name;
@@ -32,9 +39,26 @@ public class Util {
         return connection;
     }
 
-    public static Connection getBDConnection(String hostName, String dbName,
-                                             String userName, String password) throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://"
-                + hostName + ":3306/" + dbName, userName, password);
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            try {
+                Configuration config = new Configuration()
+                        .addAnnotatedClass(User.class)
+                        .setProperty(Environment.URL, "jdbc:mysql://localhost:3306/users")
+                        .setProperty(Environment.DRIVER, "com.mysql.cj.jdbc.Driver")
+                        .setProperty(Environment.USER, "root")
+                        .setProperty(Environment.PASS, "password")
+                        .setProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread")
+                        .setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect")
+                        .setProperty(Environment.SHOW_SQL, "true");
+                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                        .applySettings(config.getProperties()).build();
+                return sessionFactory = config.buildSessionFactory();
+            } catch (Exception e) {
+                System.out.println("Ошибка при создании SessionFactory");
+                e.printStackTrace();
+            }
+        }
+        return sessionFactory;
     }
 }
