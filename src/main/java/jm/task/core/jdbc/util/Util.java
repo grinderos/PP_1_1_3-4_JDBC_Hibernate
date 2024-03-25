@@ -22,25 +22,19 @@ public class Util {
     public static Connection getBDConnection() throws SQLException {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://" + hostName + ":3306/" + dbName, userName, password);
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://"+ hostName + ":3306/"
+                            + dbName, userName, password
+            );
         } catch (SQLException e) {
             throw new SQLException("Ошибка при получении Connection", e);
         }
         return connection;
     }
 
-    public static Connection getBDConnection(String hostName, String dbName, String userName, String password) throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://" + hostName + ":3306/" + dbName, userName, password);
-    }
-
-    public static Statement getStatement() throws SQLException {
-        Statement statement = null;
-        try {
-            Connection connection = Util.getBDConnection();
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new SQLException("Ошибка при получении Statement", e);
-        }
-        return statement;
+    public static Connection getBDConnection(String hostName, String dbName,
+                                             String userName, String password) throws SQLException {
+        return DriverManager.getConnection("jdbc:mysql://"
+                + hostName + ":3306/" + dbName, userName, password);
     }
 }
