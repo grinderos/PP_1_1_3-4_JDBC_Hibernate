@@ -56,7 +56,6 @@ public class Util {
                 return sessionFactory = config.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
                 System.out.println("Ошибка при создании SessionFactory");
-//                throw new Exception("Ошибка при получении Connection", e);
             }
         }
         return sessionFactory;
