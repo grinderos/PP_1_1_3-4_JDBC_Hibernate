@@ -18,9 +18,9 @@ public class Main {
 
         UserServiceImpl usi = new UserServiceImpl();
         usi.createUsersTable();
-        usi.saveUser("Ivan", "Ivanov", (byte) 66);
-        usi.saveUser("Petr", "Petrov", (byte) 55);
-        usi.saveUser("Sidor", "Sidorov", (byte) 44);
+        usi.saveUser("James", "Bond", (byte) 66);
+        usi.saveUser("Tony", "Stark", (byte) 55);
+        usi.saveUser("Ithan", "Hunt", (byte) 44);
         usi.saveUser("Ostin", "Powers", (byte) 33);
         List<User> list = usi.getAllUsers();
         System.out.println(list);

@@ -26,7 +26,7 @@ public class Util {
         password = user_password;
     }
 
-    public static Connection getBDConnection() throws SQLException {
+    public static Connection getBDConnection() {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(
@@ -34,7 +34,7 @@ public class Util {
                             + dbName, userName, password
             );
         } catch (SQLException e) {
-            throw new SQLException("Ошибка при получении Connection", e);
+            System.out.println("Ошибка при получении Connection");
         }
         return connection;
     }
