@@ -39,7 +39,7 @@ public class Util {
         return connection;
     }
 
-    public static SessionFactory getSessionFactory() throws Exception {
+    public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration config = new Configuration()
@@ -53,10 +53,10 @@ public class Util {
                         .setProperty(Environment.SHOW_SQL, "true");
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(config.getProperties()).build();
-                return sessionFactory = config.buildSessionFactory();
+                return sessionFactory = config.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
                 System.out.println("Ошибка при создании SessionFactory");
-                throw new Exception("Ошибка при получении Connection", e);
+//                throw new Exception("Ошибка при получении Connection", e);
             }
         }
         return sessionFactory;
