@@ -1,11 +1,9 @@
 package jm.task.core.jdbc.dao;
 
-import com.sun.xml.fastinfoset.util.StringArray;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -16,19 +14,18 @@ public class UserDaoHibernateImpl implements UserDao {
 
     }
 
-
     @Override
     public void createUsersTable() {
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+            session.beginTransaction();
             session.createSQLQuery(
                     "create table if not exists Users " +
                             "(id bigint primary key auto_increment, " +
                             "firstName varchar(40) not null, " +
                             "lastName varchar(40) not null, " +
                             "age tinyint not null check (age >= 0));"
-            );
-            transaction.commit();
+            ).executeUpdate();
+            session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Проблема при создании таблицы.");
         }
@@ -38,7 +35,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.createSQLQuery("drop table users;");
+            session.createSQLQuery("drop table users;").executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Проблема при удалении таблицы.");
@@ -75,11 +72,26 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        List<User> list = null;
+        try(Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+            list = session.createQuery("from User", User.class).list();
+            session.getTransaction().commit();
+        } catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Проблема при получении всего списка пользователей.");
+        }
+        return list;
     }
 
     @Override
     public void cleanUsersTable() {
-
+        try(Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+            session.createSQLQuery("truncate table users;").executeUpdate();
+            session.getTransaction().commit();
+        } catch(Exception e){
+            System.out.println("Проблема при очистке списка пользователей.");
+        }
     }
 }
