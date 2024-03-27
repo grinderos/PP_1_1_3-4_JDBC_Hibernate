@@ -11,14 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private final Connection connection = Util.getBDConnection();
-
     public UserDaoJDBCImpl() {
 
     }
 
     public void createUsersTable() {
-        try (Statement statement = connection.createStatement()) {
+        try (Connection connection = Util.getBDConnection();
+             Statement statement = connection.createStatement()) {
             statement.executeUpdate(
                     "create table if not exists Users " +
                             "(id bigint primary key auto_increment, " +
