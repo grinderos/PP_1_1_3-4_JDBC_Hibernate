@@ -92,7 +92,6 @@ public class UserDaoHibernateImpl implements UserDao {
             list = session.createQuery("from User", User.class).list();
             transaction.commit();
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("Проблема при получении всего списка пользователей.");
             if (transaction != null) {
                 transaction.rollback();
