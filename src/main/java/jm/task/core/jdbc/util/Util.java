@@ -30,8 +30,8 @@ public class Util {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://" + hostName + ":3306/"
-                            + dbName, userName, password
+                    "jdbc:mysql://" + hostName + ":3306/" + dbName,
+                    userName, password
             );
         } catch (SQLException e) {
             System.out.println("Ошибка при получении Connection");
@@ -44,7 +44,7 @@ public class Util {
             try {
                 Configuration config = new Configuration()
                         .addAnnotatedClass(User.class)
-                        .setProperty(Environment.URL, "jdbc:mysql://"+hostName+":3306/"+dbName)
+                        .setProperty(Environment.URL, "jdbc:mysql://" + hostName + ":3306/" + dbName)
                         .setProperty(Environment.DRIVER, "com.mysql.cj.jdbc.Driver")
                         .setProperty(Environment.USER, userName)
                         .setProperty(Environment.PASS, password)
